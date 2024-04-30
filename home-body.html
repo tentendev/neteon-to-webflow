@@ -1,5 +1,5 @@
 
-        <svg data-src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/7c57ebd0-e90d-013c-745b-1ad35ae06ba0/img/icon-sprite.svg" class="icons-svg-sprite"></svg>
+        <svg data-src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/b6c443b0-e90d-013c-0b78-62727f51fabf/img/icon-sprite.svg" class="icons-svg-sprite"></svg>
 
         <div class="top-promo promo-banner" style="
     background: red;display:none;">
@@ -834,7 +834,7 @@
         .then(json => {
             var root = json.data.site.categoryTree;
             var menu = '';
-            // console.log('lv1Cate', root)
+            console.log('lv1Cate', root)
             $(root).each(function(key, lv1){
 
                     $(lv1.children).each(function(key, lv2) {
@@ -905,10 +905,7 @@
             $('.--desktop .navPages-item').removeClass('--current');;
         })
         
-        console.log('Adding product category listing');
-        $('.prod-menu-list').html($('.product-cat-listing').html());
-        console.log('lets remove the cat container');
-        $('.product-cat-listing').remove();
+        console.log('Workflow content');
 
         $.get('https://raw.githubusercontent.com/tentendev/webflow-neteon-content/main/home-body.html', function(html) {
   
@@ -917,6 +914,7 @@
                 var url = $(this).attr("href");
                 var image = $(this).find("img").attr("src");
                 var text = $(this).find(".product-card-content-wrapper p").text().trim();
+                console.log($(this));
                 var template = `
                     <a href="${url}" class="solutions-item">
                         <img src="${image}" />
@@ -926,63 +924,506 @@
         
                 $('.main-menu_dropdown .solutions-container').append(template);
             });
+
+            $(html).find("h6.navbar-tab").each(function(index) {
+                // Create the structure if it doesn't exist
+                var $prodItem = $('<div class="prod-item"></div>');
+                $prodItem.append('<div class="main-cat"></div>');
+                $prodItem.append('<div class="main-item"></div>');
+                $('.prod-menu-list').append($prodItem);
+
+                $('.prod-menu-list .prod-item .main-cat:eq(' + index + ')').text($(this).text())
+                var productItems = $(this).parent().siblings().find('.product-tabs-link');
+                
+
+                productItems.each(function() {
+                    var productUrl = $(this).attr('href');
+                    var productTitle = $(this).text();
+                    var template = `<a href="${productUrl}" class="prod-link item-cy">${productTitle}</a>`;
+                    $('.prod-item:eq('+ index +') .main-item').append(template);
+                    
+                });
+            });
+        
         });
     })
 
 </script>
 
-        <div class="product-cat-listing" style="display: none;">
-                    <div class="prod-item">
-                        <div class="main-cat">Network Infrastructure</div>
-                        <div class="main-item">
-                                <a href="https://www.neteon.net/products/network-infrastructure/ethernet-switches/" class="prod-link">Ethernet Switches</a>
-                                <a href="https://www.neteon.net/products/network-infrastructure/secure-routers/" class="prod-link">Secure Routers</a>
-                                <a href="https://www.neteon.net/products/network-infrastructure/industrial-wireless/" class="prod-link">Industrial Wireless</a>
-                                <a href="https://www.neteon.net/products/network-infrastructure/ethernet-media-converters/" class="prod-link">Ethernet Media Converters</a>
-                                <a href="https://www.neteon.net/products/network-infrastructure/network-management-software/" class="prod-link">Network Management Software</a>
-                                <a href="https://www.neteon.net/products/network-infrastructure/secure-remote-access/" class="prod-link">Secure Remote Access</a>
-                        </div>
-                    </div>
-                    <div class="prod-item">
-                        <div class="main-cat">Edge Connectivity</div>
-                        <div class="main-item">
-                                <a href="https://www.neteon.net/products/edge-connectivity/i-o-servers/" class="prod-link">I/O Servers</a>
-                                <a href="https://www.neteon.net/products/edge-connectivity/protocol-gateways/" class="prod-link">Protocol Gateways</a>
-                                <a href="https://www.neteon.net/products/edge-connectivity/serial-device-servers/" class="prod-link">Serial Device Servers</a>
-                                <a href="https://www.neteon.net/products/edge-connectivity/serial-converters/" class="prod-link">Serial Converters</a>
-                                <a href="https://www.neteon.net/products/edge-connectivity/usb-to-serial-usb-hubs/" class="prod-link">USB To Serial/USB Hubs</a>
-                                <a href="https://www.neteon.net/products/edge-connectivity/multiport-serial-board/" class="prod-link">Multiport Serial Board</a>
-                        </div>
-                    </div>
-                    <div class="prod-item">
-                        <div class="main-cat">Industrial Computer</div>
-                        <div class="main-item">
-                                <a href="https://www.neteon.net/products/industrial-computer/x86-computers/" class="prod-link">x86 Computers</a>
-                                <a href="https://www.neteon.net/products/industrial-computer/arm-risc-computers/" class="prod-link">ARM/RISC Computers</a>
-                                <a href="https://www.neteon.net/products/industrial-computer/panel-computers/" class="prod-link">Panel Computers</a>
-                                <a href="https://www.neteon.net/products/industrial-computer/iiot-gateways/" class="prod-link">IIoT Gateways</a>
-                        </div>
-                    </div>
-                    <div class="prod-item">
-                        <div class="main-cat">Network Security</div>
-                        <div class="main-item">
-                                <a href="https://www.neteon.net/products/network-security/industrial-firewall/" class="prod-link">Industrial Firewall</a>
-                                <a href="https://www.neteon.net/products/network-security/network-address-translation/" class="prod-link">Network Address Translation</a>
-                                <a href="https://www.neteon.net/products/network-security/intrusion-prevention-system/" class="prod-link">Intrusion Prevention System</a>
-                        </div>
-                    </div>
-                    <div class="prod-item">
-                        <div class="main-cat">Accessories</div>
-                        <div class="main-item">
-                                <a href="https://www.neteon.net/products/accessories/sfp-modules/" class="prod-link">SFP Modules</a>
-                                <a href="https://www.neteon.net/products/accessories/power-suppliers/" class="prod-link">Power Suppliers</a>
-                                <a href="https://www.neteon.net/products/accessories/poe-splitters-injectors/" class="prod-link">PoE Splitters/Injectors</a>
-                                <a href="https://www.neteon.net/products/accessories/wlan-antennas-cables/" class="prod-link">WLAN Antennas &amp; Cables</a>
-                                <a href="https://www.neteon.net/products/accessories/mounting-kits/" class="prod-link">Mounting Kits</a>
-                        </div>
-                    </div>
-        </div>
+            <script type="text/javascript">
+                fetch('/graphql', {
+                 method: 'POST',
+                 credentials: 'same-origin',
+                 headers: {
+                     'Content-Type': 'application/json',
+                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
+                 },
+                 body: JSON.stringify({
+                     query: `
+                     query solutionmenu {
+                      site {
+                        route(path: "https://www.neteon.net/solutions-in-navigation/advanced-modular-remote-i-o/") {
+                          node {
+                            ... on Category {
+                              entityId
+                              name
+                              path
+                              description
+                              defaultImage {
+                                ...ImageFields
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    fragment ImageFields on Image {
+                      url320wide: url(width: 320)
+                      url1280wide: url(width: 1280)
+                    }
+                     `
+                 }),
+                })
+                .then(res => res.json())
+                .then(json => {
+                    var solution = json.data.site.route.node;
+                    var sHtml = '';
+                    var sId = solution.entityId;
 
+                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
+                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
+                    //var img = solution.defaultImage.url1280wide;
+                    var imgThumb = '';
+                    var imgFull = ''
+                    if(solution.defaultImage != null){
+                        imgThumb = solution.defaultImage.url320wide;
+                        imgFull = solution.defaultImage.url1280wide;
+                    }
+                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
+                    var desc = '';
+                    if(solution.description != null) {
+                        desc = solution.description
+                    }
+
+                    $(`${target} .solution-image`).html(sImage);
+                    $(`${target} .solution-content`).html(desc);
+
+                    if($(`${target} a`).attr('href') != undefined) {
+                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+
+                    $(`${target2} .solution-image`).html(sImage).hide();
+                    $(`${target2} .solution-content`).html(desc);
+                    $(`${target2} .solution-content *`).css({
+                        "font-size": "18px",
+                        "font-weight": "700",
+                        "text-transform": "uppercase"
+
+                    })
+                    $('.solutions-list').css({
+                        "padding-left": "1.5rem"
+                    })
+
+                    if($(`${target2} a`).attr('href') != undefined) {
+                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+                })
+            </script>
+            <script type="text/javascript">
+                fetch('/graphql', {
+                 method: 'POST',
+                 credentials: 'same-origin',
+                 headers: {
+                     'Content-Type': 'application/json',
+                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
+                 },
+                 body: JSON.stringify({
+                     query: `
+                     query solutionmenu {
+                      site {
+                        route(path: "https://www.neteon.net/solutions-in-navigation/cisco-asset-vision/") {
+                          node {
+                            ... on Category {
+                              entityId
+                              name
+                              path
+                              description
+                              defaultImage {
+                                ...ImageFields
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    fragment ImageFields on Image {
+                      url320wide: url(width: 320)
+                      url1280wide: url(width: 1280)
+                    }
+                     `
+                 }),
+                })
+                .then(res => res.json())
+                .then(json => {
+                    var solution = json.data.site.route.node;
+                    var sHtml = '';
+                    var sId = solution.entityId;
+
+                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
+                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
+                    //var img = solution.defaultImage.url1280wide;
+                    var imgThumb = '';
+                    var imgFull = ''
+                    if(solution.defaultImage != null){
+                        imgThumb = solution.defaultImage.url320wide;
+                        imgFull = solution.defaultImage.url1280wide;
+                    }
+                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
+                    var desc = '';
+                    if(solution.description != null) {
+                        desc = solution.description
+                    }
+
+                    $(`${target} .solution-image`).html(sImage);
+                    $(`${target} .solution-content`).html(desc);
+
+                    if($(`${target} a`).attr('href') != undefined) {
+                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+
+                    $(`${target2} .solution-image`).html(sImage).hide();
+                    $(`${target2} .solution-content`).html(desc);
+                    $(`${target2} .solution-content *`).css({
+                        "font-size": "18px",
+                        "font-weight": "700",
+                        "text-transform": "uppercase"
+
+                    })
+                    $('.solutions-list').css({
+                        "padding-left": "1.5rem"
+                    })
+
+                    if($(`${target2} a`).attr('href') != undefined) {
+                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+                })
+            </script>
+            <script type="text/javascript">
+                fetch('/graphql', {
+                 method: 'POST',
+                 credentials: 'same-origin',
+                 headers: {
+                     'Content-Type': 'application/json',
+                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
+                 },
+                 body: JSON.stringify({
+                     query: `
+                     query solutionmenu {
+                      site {
+                        route(path: "https://www.neteon.net/category_compute_solution_1_ignitionedgeonboard/") {
+                          node {
+                            ... on Category {
+                              entityId
+                              name
+                              path
+                              description
+                              defaultImage {
+                                ...ImageFields
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    fragment ImageFields on Image {
+                      url320wide: url(width: 320)
+                      url1280wide: url(width: 1280)
+                    }
+                     `
+                 }),
+                })
+                .then(res => res.json())
+                .then(json => {
+                    var solution = json.data.site.route.node;
+                    var sHtml = '';
+                    var sId = solution.entityId;
+
+                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
+                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
+                    //var img = solution.defaultImage.url1280wide;
+                    var imgThumb = '';
+                    var imgFull = ''
+                    if(solution.defaultImage != null){
+                        imgThumb = solution.defaultImage.url320wide;
+                        imgFull = solution.defaultImage.url1280wide;
+                    }
+                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
+                    var desc = '';
+                    if(solution.description != null) {
+                        desc = solution.description
+                    }
+
+                    $(`${target} .solution-image`).html(sImage);
+                    $(`${target} .solution-content`).html(desc);
+
+                    if($(`${target} a`).attr('href') != undefined) {
+                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+
+                    $(`${target2} .solution-image`).html(sImage).hide();
+                    $(`${target2} .solution-content`).html(desc);
+                    $(`${target2} .solution-content *`).css({
+                        "font-size": "18px",
+                        "font-weight": "700",
+                        "text-transform": "uppercase"
+
+                    })
+                    $('.solutions-list').css({
+                        "padding-left": "1.5rem"
+                    })
+
+                    if($(`${target2} a`).attr('href') != undefined) {
+                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+                })
+            </script>
+            <script type="text/javascript">
+                fetch('/graphql', {
+                 method: 'POST',
+                 credentials: 'same-origin',
+                 headers: {
+                     'Content-Type': 'application/json',
+                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
+                 },
+                 body: JSON.stringify({
+                     query: `
+                     query solutionmenu {
+                      site {
+                        route(path: "https://www.neteon.net/solutions-in-navigation/industrial-protocol-conversion/") {
+                          node {
+                            ... on Category {
+                              entityId
+                              name
+                              path
+                              description
+                              defaultImage {
+                                ...ImageFields
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    fragment ImageFields on Image {
+                      url320wide: url(width: 320)
+                      url1280wide: url(width: 1280)
+                    }
+                     `
+                 }),
+                })
+                .then(res => res.json())
+                .then(json => {
+                    var solution = json.data.site.route.node;
+                    var sHtml = '';
+                    var sId = solution.entityId;
+
+                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
+                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
+                    //var img = solution.defaultImage.url1280wide;
+                    var imgThumb = '';
+                    var imgFull = ''
+                    if(solution.defaultImage != null){
+                        imgThumb = solution.defaultImage.url320wide;
+                        imgFull = solution.defaultImage.url1280wide;
+                    }
+                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
+                    var desc = '';
+                    if(solution.description != null) {
+                        desc = solution.description
+                    }
+
+                    $(`${target} .solution-image`).html(sImage);
+                    $(`${target} .solution-content`).html(desc);
+
+                    if($(`${target} a`).attr('href') != undefined) {
+                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+
+                    $(`${target2} .solution-image`).html(sImage).hide();
+                    $(`${target2} .solution-content`).html(desc);
+                    $(`${target2} .solution-content *`).css({
+                        "font-size": "18px",
+                        "font-weight": "700",
+                        "text-transform": "uppercase"
+
+                    })
+                    $('.solutions-list').css({
+                        "padding-left": "1.5rem"
+                    })
+
+                    if($(`${target2} a`).attr('href') != undefined) {
+                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+                })
+            </script>
+            <script type="text/javascript">
+                fetch('/graphql', {
+                 method: 'POST',
+                 credentials: 'same-origin',
+                 headers: {
+                     'Content-Type': 'application/json',
+                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
+                 },
+                 body: JSON.stringify({
+                     query: `
+                     query solutionmenu {
+                      site {
+                        route(path: "https://www.neteon.net/solutions-in-navigation/moxa-secure-remote-access-solution/") {
+                          node {
+                            ... on Category {
+                              entityId
+                              name
+                              path
+                              description
+                              defaultImage {
+                                ...ImageFields
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    fragment ImageFields on Image {
+                      url320wide: url(width: 320)
+                      url1280wide: url(width: 1280)
+                    }
+                     `
+                 }),
+                })
+                .then(res => res.json())
+                .then(json => {
+                    var solution = json.data.site.route.node;
+                    var sHtml = '';
+                    var sId = solution.entityId;
+
+                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
+                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
+                    //var img = solution.defaultImage.url1280wide;
+                    var imgThumb = '';
+                    var imgFull = ''
+                    if(solution.defaultImage != null){
+                        imgThumb = solution.defaultImage.url320wide;
+                        imgFull = solution.defaultImage.url1280wide;
+                    }
+                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
+                    var desc = '';
+                    if(solution.description != null) {
+                        desc = solution.description
+                    }
+
+                    $(`${target} .solution-image`).html(sImage);
+                    $(`${target} .solution-content`).html(desc);
+
+                    if($(`${target} a`).attr('href') != undefined) {
+                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+
+                    $(`${target2} .solution-image`).html(sImage).hide();
+                    $(`${target2} .solution-content`).html(desc);
+                    $(`${target2} .solution-content *`).css({
+                        "font-size": "18px",
+                        "font-weight": "700",
+                        "text-transform": "uppercase"
+
+                    })
+                    $('.solutions-list').css({
+                        "padding-left": "1.5rem"
+                    })
+
+                    if($(`${target2} a`).attr('href') != undefined) {
+                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+                })
+            </script>
+            <script type="text/javascript">
+                fetch('/graphql', {
+                 method: 'POST',
+                 credentials: 'same-origin',
+                 headers: {
+                     'Content-Type': 'application/json',
+                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
+                 },
+                 body: JSON.stringify({
+                     query: `
+                     query solutionmenu {
+                      site {
+                        route(path: "https://www.neteon.net/solutions-in-navigation/long-reach-poe-networking/") {
+                          node {
+                            ... on Category {
+                              entityId
+                              name
+                              path
+                              description
+                              defaultImage {
+                                ...ImageFields
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    fragment ImageFields on Image {
+                      url320wide: url(width: 320)
+                      url1280wide: url(width: 1280)
+                    }
+                     `
+                 }),
+                })
+                .then(res => res.json())
+                .then(json => {
+                    var solution = json.data.site.route.node;
+                    var sHtml = '';
+                    var sId = solution.entityId;
+
+                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
+                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
+                    //var img = solution.defaultImage.url1280wide;
+                    var imgThumb = '';
+                    var imgFull = ''
+                    if(solution.defaultImage != null){
+                        imgThumb = solution.defaultImage.url320wide;
+                        imgFull = solution.defaultImage.url1280wide;
+                    }
+                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
+                    var desc = '';
+                    if(solution.description != null) {
+                        desc = solution.description
+                    }
+
+                    $(`${target} .solution-image`).html(sImage);
+                    $(`${target} .solution-content`).html(desc);
+
+                    if($(`${target} a`).attr('href') != undefined) {
+                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+
+                    $(`${target2} .solution-image`).html(sImage).hide();
+                    $(`${target2} .solution-content`).html(desc);
+                    $(`${target2} .solution-content *`).css({
+                        "font-size": "18px",
+                        "font-weight": "700",
+                        "text-transform": "uppercase"
+
+                    })
+                    $('.solutions-list').css({
+                        "padding-left": "1.5rem"
+                    })
+
+                    if($(`${target2} a`).attr('href') != undefined) {
+                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
+                    }
+                })
+            </script>
     <ul class="navPages-list navPages-list--user">
             <li class="navPages-item" style="display: none;">
                 <a class="navPages-action navPages-action--compare" href="/compare" data-compare-nav="" aria-label="Compare">
@@ -1043,7 +1484,7 @@
             <!-- B2B Customization Starts -->
         <!-- B2B Customization Ends -->
           <a href="javascript:void(0)" class="navUser-action">
-            <!--<img class="navUser-icon" id="toggle-account-dropdown" src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/7c57ebd0-e90d-013c-745b-1ad35ae06ba0/img/header/account-icon.png" alt="Account">-->
+            <!--<img class="navUser-icon" id="toggle-account-dropdown" src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/b6c443b0-e90d-013c-0b78-62727f51fabf/img/header/account-icon.png" alt="Account">-->
             <img class="navUser-icon" id="toggle-account-dropdown" src="https://assets-global.website-files.com/65bb5d26887b87305b615029/65f4159dc5182b053c85920d_profile.svg" alt="Account">
           </a>
             <div class="account-dropdown not_logged_in">
@@ -1059,7 +1500,7 @@
         <li class="navUser-item navUser-item--cart">
             <a class="navUser-action" data-cart-preview="" data-dropdown="cart-preview-dropdown" data-options="align:right" href="/cart.php" aria-label="Cart with 0 items">
                 <!-- <span class="navUser-item-cartLabel">Cart</span> -->
-                <!-- <img class="navUser-icon" src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/7c57ebd0-e90d-013c-745b-1ad35ae06ba0/img/header/cart-icon.png" alt="cart">-->
+                <!-- <img class="navUser-icon" src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/b6c443b0-e90d-013c-0b78-62727f51fabf/img/header/cart-icon.png" alt="cart">-->
                 <img class="navUser-icon" src="https://assets-global.website-files.com/65bb5d26887b87305b615029/65f4159e665c63b90d3814f6_shopping%20cart.svg" alt="cart">
                 <span class="countPill cart-quantity"></span>
             </a>
@@ -1668,8 +2109,8 @@
 
 
 
-        <script>window.__webpack_public_path__ = "https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/7c57ebd0-e90d-013c-745b-1ad35ae06ba0/dist/";</script>
-        <script src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/7c57ebd0-e90d-013c-745b-1ad35ae06ba0/dist/theme-bundle.main.js"></script>
+        <script>window.__webpack_public_path__ = "https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/b6c443b0-e90d-013c-0b78-62727f51fabf/dist/";</script>
+        <script src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/b6c443b0-e90d-013c-0b78-62727f51fabf/dist/theme-bundle.main.js"></script>
         <script>
             window.stencilBootstrap("default", "{\"zoomSize\":\"1280x1280\",\"productSize\":\"500x659\",\"showAdminBar\":true,\"genericError\":\"Oops! Something went wrong.\",\"maintenanceModeSettings\":[],\"adminBarLanguage\":\"{\\\"locale\\\":\\\"en\\\",\\\"locales\\\":{\\\"admin.maintenance_header\\\":\\\"en\\\",\\\"admin.maintenance_tooltip\\\":\\\"en\\\",\\\"admin.maintenance_showstore_link\\\":\\\"en\\\",\\\"admin.prelaunch_header\\\":\\\"en\\\",\\\"admin.page_builder_link\\\":\\\"en\\\"},\\\"translations\\\":{\\\"admin.maintenance_header\\\":\\\"Your store is down for maintenance.\\\",\\\"admin.maintenance_tooltip\\\":\\\"Only administrators can view the store at the moment. Visit your control panel settings page to disable maintenance mode.\\\",\\\"admin.maintenance_showstore_link\\\":\\\"Click here to see what your visitors will see.\\\",\\\"admin.prelaunch_header\\\":\\\"Your storefront is private. Share your site with preview code:\\\",\\\"admin.page_builder_link\\\":\\\"Design this page in Page Builder\\\"}}\",\"urls\":{\"home\":\"https://www.neteon.net/\",\"account\":{\"index\":\"/account.php\",\"orders\":{\"all\":\"/account.php?action=order_status\",\"completed\":\"/account.php?action=view_orders\",\"save_new_return\":\"/account.php?action=save_new_return\"},\"update_action\":\"/account.php?action=update_account\",\"returns\":\"/account.php?action=view_returns\",\"addresses\":\"/account.php?action=address_book\",\"inbox\":\"/account.php?action=inbox\",\"send_message\":\"/account.php?action=send_message\",\"add_address\":\"/account.php?action=add_shipping_address\",\"wishlists\":{\"all\":\"/wishlist.php\",\"add\":\"/wishlist.php?action=addwishlist\",\"edit\":\"/wishlist.php?action=editwishlist\",\"delete\":\"/wishlist.php?action=deletewishlist\"},\"details\":\"/account.php?action=account_details\",\"recent_items\":\"/account.php?action=recent_items\",\"payment_methods\":{\"all\":\"/account.php?action=payment_methods\"}},\"brands\":\"https://www.neteon.net/brands/\",\"gift_certificate\":{\"purchase\":\"/giftcertificates.php\",\"redeem\":\"/giftcertificates.php?action=redeem\",\"balance\":\"/giftcertificates.php?action=balance\"},\"auth\":{\"login\":\"/login.php\",\"check_login\":\"/login.php?action=check_login\",\"create_account\":\"/login.php?action=create_account\",\"save_new_account\":\"/login.php?action=save_new_account\",\"forgot_password\":\"/login.php?action=reset_password\",\"send_password_email\":\"/login.php?action=send_password_email\",\"save_new_password\":\"/login.php?action=save_new_password\",\"logout\":\"/login.php?action=logout\"},\"product\":{\"post_review\":\"/postreview.php\"},\"cart\":\"/cart.php\",\"checkout\":{\"single_address\":\"/checkout\",\"multiple_address\":\"/checkout.php?action=multiple\"},\"rss\":{\"products\":[]},\"contact_us_submit\":\"/pages.php?action=sendContactForm\",\"search\":\"/search.php\",\"compare\":\"/compare\",\"sitemap\":\"/sitemap.php\",\"subscribe\":{\"action\":\"/subscribe.php\"}},\"secureBaseUrl\":\"https://www.neteon.net\",\"cartId\":null,\"channelId\":1,\"template\":\"pages/home\",\"validationDictionaryJSON\":\"{\\\"locale\\\":\\\"en\\\",\\\"locales\\\":{\\\"validation_messages.valid_email\\\":\\\"en\\\",\\\"validation_messages.password\\\":\\\"en\\\",\\\"validation_messages.password_match\\\":\\\"en\\\",\\\"validation_messages.invalid_password\\\":\\\"en\\\",\\\"validation_messages.field_not_blank\\\":\\\"en\\\",\\\"validation_messages.certificate_amount\\\":\\\"en\\\",\\\"validation_messages.certificate_amount_range\\\":\\\"en\\\",\\\"validation_messages.price_min_evaluation\\\":\\\"en\\\",\\\"validation_messages.price_max_evaluation\\\":\\\"en\\\",\\\"validation_messages.price_min_not_entered\\\":\\\"en\\\",\\\"validation_messages.price_max_not_entered\\\":\\\"en\\\",\\\"validation_messages.price_invalid_value\\\":\\\"en\\\"},\\\"translations\\\":{\\\"validation_messages.valid_email\\\":\\\"You must enter a valid email.\\\",\\\"validation_messages.password\\\":\\\"You must enter a password.\\\",\\\"validation_messages.password_match\\\":\\\"Your passwords do not match.\\\",\\\"validation_messages.invalid_password\\\":\\\"Passwords must be at least 7 characters and contain both alphabetic and numeric characters.\\\",\\\"validation_messages.field_not_blank\\\":\\\" field cannot be blank.\\\",\\\"validation_messages.certificate_amount\\\":\\\"You must enter a gift certificate amount.\\\",\\\"validation_messages.certificate_amount_range\\\":\\\"You must enter a certificate amount between [MIN] and [MAX]\\\",\\\"validation_messages.price_min_evaluation\\\":\\\"Min. price must be less than max. price.\\\",\\\"validation_messages.price_max_evaluation\\\":\\\"Min. price must be less than max. price.\\\",\\\"validation_messages.price_min_not_entered\\\":\\\"Min. price is required.\\\",\\\"validation_messages.price_max_not_entered\\\":\\\"Max. price is required.\\\",\\\"validation_messages.price_invalid_value\\\":\\\"Input must be greater than 0.\\\"}}\",\"validationFallbackDictionaryJSON\":\"{\\\"locale\\\":\\\"en\\\",\\\"locales\\\":{\\\"validation_fallback_messages.valid_email\\\":\\\"en\\\",\\\"validation_fallback_messages.password\\\":\\\"en\\\",\\\"validation_fallback_messages.password_match\\\":\\\"en\\\",\\\"validation_fallback_messages.invalid_password\\\":\\\"en\\\",\\\"validation_fallback_messages.field_not_blank\\\":\\\"en\\\",\\\"validation_fallback_messages.certificate_amount\\\":\\\"en\\\",\\\"validation_fallback_messages.certificate_amount_range\\\":\\\"en\\\",\\\"validation_fallback_messages.price_min_evaluation\\\":\\\"en\\\",\\\"validation_fallback_messages.price_max_evaluation\\\":\\\"en\\\",\\\"validation_fallback_messages.price_min_not_entered\\\":\\\"en\\\",\\\"validation_fallback_messages.price_max_not_entered\\\":\\\"en\\\",\\\"validation_fallback_messages.price_invalid_value\\\":\\\"en\\\"},\\\"translations\\\":{\\\"validation_fallback_messages.valid_email\\\":\\\"You must enter a valid email.\\\",\\\"validation_fallback_messages.password\\\":\\\"You must enter a password.\\\",\\\"validation_fallback_messages.password_match\\\":\\\"Your passwords do not match.\\\",\\\"validation_fallback_messages.invalid_password\\\":\\\"Passwords must be at least 7 characters and contain both alphabetic and numeric characters.\\\",\\\"validation_fallback_messages.field_not_blank\\\":\\\" field cannot be blank.\\\",\\\"validation_fallback_messages.certificate_amount\\\":\\\"You must enter a gift certificate amount.\\\",\\\"validation_fallback_messages.certificate_amount_range\\\":\\\"You must enter a certificate amount between [MIN] and [MAX]\\\",\\\"validation_fallback_messages.price_min_evaluation\\\":\\\"Min. price must be less than max. price.\\\",\\\"validation_fallback_messages.price_max_evaluation\\\":\\\"Min. price must be less than max. price.\\\",\\\"validation_fallback_messages.price_min_not_entered\\\":\\\"Min. price is required.\\\",\\\"validation_fallback_messages.price_max_not_entered\\\":\\\"Max. price is required.\\\",\\\"validation_fallback_messages.price_invalid_value\\\":\\\"Input must be greater than 0.\\\"}}\",\"validationDefaultDictionaryJSON\":\"{\\\"locale\\\":\\\"en\\\",\\\"locales\\\":{},\\\"translations\\\":{}}\",\"carouselArrowAndDotAriaLabel\":\"Go to slide [SLIDE_NUMBER] of [SLIDES_QUANTITY]\",\"carouselActiveDotAriaLabel\":\"active\",\"carouselContentAnnounceMessage\":\"You are currently on slide [SLIDE_NUMBER] of [SLIDES_QUANTITY]\"}").load();
 
