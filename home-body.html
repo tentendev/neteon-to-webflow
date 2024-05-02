@@ -1,5 +1,5 @@
 
-        <svg data-src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/b6c443b0-e90d-013c-0b78-62727f51fabf/img/icon-sprite.svg" class="icons-svg-sprite"></svg>
+        <svg data-src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/6af82e80-ea4a-013c-ab75-22a2442e98ce/e/b6c443b0-e90d-013c-0b78-62727f51fabf/img/icon-sprite.svg" class="icons-svg-sprite"></svg>
 
         <div class="top-promo promo-banner" style="
     background: red;display:none;">
@@ -804,7 +804,7 @@
             credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ3MzExOTcsImlhdCI6MTcxNDU1ODM5NywiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.-yPdQCZjUZkxsbMSUQNzgcMronIi9WF_G37OkwGmUgR5jE92kTo7nV2F28Tmy_YwLjIs1HhkU9UXEQzvgPW_Sg'
             },
             body: JSON.stringify({
                 query: `
@@ -834,7 +834,7 @@
         .then(json => {
             var root = json.data.site.categoryTree;
             var menu = '';
-            console.log('lv1Cate', root)
+            // console.log('lv1Cate', root)
             $(root).each(function(key, lv1){
 
                     $(lv1.children).each(function(key, lv2) {
@@ -905,7 +905,10 @@
             $('.--desktop .navPages-item').removeClass('--current');;
         })
         
-        console.log('Workflow content');
+        console.log('Adding product category listing');
+        $('.prod-menu-list').html($('.product-cat-listing').html());
+        console.log('lets remove the cat container');
+        $('.product-cat-listing').remove();
 
         $.get('https://raw.githubusercontent.com/tentendev/webflow-neteon-content/main/home-body.html', function(html) {
   
@@ -914,7 +917,6 @@
                 var url = $(this).attr("href");
                 var image = $(this).find("img").attr("src");
                 var text = $(this).find(".product-card-content-wrapper p").text().trim();
-                console.log($(this));
                 var template = `
                     <a href="${url}" class="solutions-item">
                         <img src="${image}" />
@@ -924,506 +926,62 @@
         
                 $('.main-menu_dropdown .solutions-container').append(template);
             });
-
-            $(html).find("h6.navbar-tab").each(function(index) {
-                // Create the structure if it doesn't exist
-                var $prodItem = $('<div class="prod-item"></div>');
-                $prodItem.append('<div class="main-cat"></div>');
-                $prodItem.append('<div class="main-item"></div>');
-                $('.prod-menu-list').append($prodItem);
-
-                $('.prod-menu-list .prod-item .main-cat:eq(' + index + ')').text($(this).text())
-                var productItems = $(this).parent().siblings().find('.product-tabs-link');
-                
-
-                productItems.each(function() {
-                    var productUrl = $(this).attr('href');
-                    var productTitle = $(this).text();
-                    var template = `<a href="${productUrl}" class="prod-link item-cy">${productTitle}</a>`;
-                    $('.prod-item:eq('+ index +') .main-item').append(template);
-                    
-                });
-            });
-        
         });
     })
 
 </script>
 
-            <script type="text/javascript">
-                fetch('/graphql', {
-                 method: 'POST',
-                 credentials: 'same-origin',
-                 headers: {
-                     'Content-Type': 'application/json',
-                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
-                 },
-                 body: JSON.stringify({
-                     query: `
-                     query solutionmenu {
-                      site {
-                        route(path: "https://www.neteon.net/solutions-in-navigation/advanced-modular-remote-i-o/") {
-                          node {
-                            ... on Category {
-                              entityId
-                              name
-                              path
-                              description
-                              defaultImage {
-                                ...ImageFields
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                    fragment ImageFields on Image {
-                      url320wide: url(width: 320)
-                      url1280wide: url(width: 1280)
-                    }
-                     `
-                 }),
-                })
-                .then(res => res.json())
-                .then(json => {
-                    var solution = json.data.site.route.node;
-                    var sHtml = '';
-                    var sId = solution.entityId;
-
-                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
-                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
-                    //var img = solution.defaultImage.url1280wide;
-                    var imgThumb = '';
-                    var imgFull = ''
-                    if(solution.defaultImage != null){
-                        imgThumb = solution.defaultImage.url320wide;
-                        imgFull = solution.defaultImage.url1280wide;
-                    }
-                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
-                    var desc = '';
-                    if(solution.description != null) {
-                        desc = solution.description
-                    }
-
-                    $(`${target} .solution-image`).html(sImage);
-                    $(`${target} .solution-content`).html(desc);
-
-                    if($(`${target} a`).attr('href') != undefined) {
-                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-
-                    $(`${target2} .solution-image`).html(sImage).hide();
-                    $(`${target2} .solution-content`).html(desc);
-                    $(`${target2} .solution-content *`).css({
-                        "font-size": "18px",
-                        "font-weight": "700",
-                        "text-transform": "uppercase"
-
-                    })
-                    $('.solutions-list').css({
-                        "padding-left": "1.5rem"
-                    })
-
-                    if($(`${target2} a`).attr('href') != undefined) {
-                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-                })
-            </script>
-            <script type="text/javascript">
-                fetch('/graphql', {
-                 method: 'POST',
-                 credentials: 'same-origin',
-                 headers: {
-                     'Content-Type': 'application/json',
-                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
-                 },
-                 body: JSON.stringify({
-                     query: `
-                     query solutionmenu {
-                      site {
-                        route(path: "https://www.neteon.net/solutions-in-navigation/cisco-asset-vision/") {
-                          node {
-                            ... on Category {
-                              entityId
-                              name
-                              path
-                              description
-                              defaultImage {
-                                ...ImageFields
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                    fragment ImageFields on Image {
-                      url320wide: url(width: 320)
-                      url1280wide: url(width: 1280)
-                    }
-                     `
-                 }),
-                })
-                .then(res => res.json())
-                .then(json => {
-                    var solution = json.data.site.route.node;
-                    var sHtml = '';
-                    var sId = solution.entityId;
-
-                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
-                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
-                    //var img = solution.defaultImage.url1280wide;
-                    var imgThumb = '';
-                    var imgFull = ''
-                    if(solution.defaultImage != null){
-                        imgThumb = solution.defaultImage.url320wide;
-                        imgFull = solution.defaultImage.url1280wide;
-                    }
-                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
-                    var desc = '';
-                    if(solution.description != null) {
-                        desc = solution.description
-                    }
-
-                    $(`${target} .solution-image`).html(sImage);
-                    $(`${target} .solution-content`).html(desc);
-
-                    if($(`${target} a`).attr('href') != undefined) {
-                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-
-                    $(`${target2} .solution-image`).html(sImage).hide();
-                    $(`${target2} .solution-content`).html(desc);
-                    $(`${target2} .solution-content *`).css({
-                        "font-size": "18px",
-                        "font-weight": "700",
-                        "text-transform": "uppercase"
-
-                    })
-                    $('.solutions-list').css({
-                        "padding-left": "1.5rem"
-                    })
-
-                    if($(`${target2} a`).attr('href') != undefined) {
-                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-                })
-            </script>
-            <script type="text/javascript">
-                fetch('/graphql', {
-                 method: 'POST',
-                 credentials: 'same-origin',
-                 headers: {
-                     'Content-Type': 'application/json',
-                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
-                 },
-                 body: JSON.stringify({
-                     query: `
-                     query solutionmenu {
-                      site {
-                        route(path: "https://www.neteon.net/category_compute_solution_1_ignitionedgeonboard/") {
-                          node {
-                            ... on Category {
-                              entityId
-                              name
-                              path
-                              description
-                              defaultImage {
-                                ...ImageFields
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                    fragment ImageFields on Image {
-                      url320wide: url(width: 320)
-                      url1280wide: url(width: 1280)
-                    }
-                     `
-                 }),
-                })
-                .then(res => res.json())
-                .then(json => {
-                    var solution = json.data.site.route.node;
-                    var sHtml = '';
-                    var sId = solution.entityId;
-
-                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
-                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
-                    //var img = solution.defaultImage.url1280wide;
-                    var imgThumb = '';
-                    var imgFull = ''
-                    if(solution.defaultImage != null){
-                        imgThumb = solution.defaultImage.url320wide;
-                        imgFull = solution.defaultImage.url1280wide;
-                    }
-                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
-                    var desc = '';
-                    if(solution.description != null) {
-                        desc = solution.description
-                    }
-
-                    $(`${target} .solution-image`).html(sImage);
-                    $(`${target} .solution-content`).html(desc);
-
-                    if($(`${target} a`).attr('href') != undefined) {
-                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-
-                    $(`${target2} .solution-image`).html(sImage).hide();
-                    $(`${target2} .solution-content`).html(desc);
-                    $(`${target2} .solution-content *`).css({
-                        "font-size": "18px",
-                        "font-weight": "700",
-                        "text-transform": "uppercase"
-
-                    })
-                    $('.solutions-list').css({
-                        "padding-left": "1.5rem"
-                    })
-
-                    if($(`${target2} a`).attr('href') != undefined) {
-                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-                })
-            </script>
-            <script type="text/javascript">
-                fetch('/graphql', {
-                 method: 'POST',
-                 credentials: 'same-origin',
-                 headers: {
-                     'Content-Type': 'application/json',
-                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
-                 },
-                 body: JSON.stringify({
-                     query: `
-                     query solutionmenu {
-                      site {
-                        route(path: "https://www.neteon.net/solutions-in-navigation/industrial-protocol-conversion/") {
-                          node {
-                            ... on Category {
-                              entityId
-                              name
-                              path
-                              description
-                              defaultImage {
-                                ...ImageFields
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                    fragment ImageFields on Image {
-                      url320wide: url(width: 320)
-                      url1280wide: url(width: 1280)
-                    }
-                     `
-                 }),
-                })
-                .then(res => res.json())
-                .then(json => {
-                    var solution = json.data.site.route.node;
-                    var sHtml = '';
-                    var sId = solution.entityId;
-
-                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
-                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
-                    //var img = solution.defaultImage.url1280wide;
-                    var imgThumb = '';
-                    var imgFull = ''
-                    if(solution.defaultImage != null){
-                        imgThumb = solution.defaultImage.url320wide;
-                        imgFull = solution.defaultImage.url1280wide;
-                    }
-                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
-                    var desc = '';
-                    if(solution.description != null) {
-                        desc = solution.description
-                    }
-
-                    $(`${target} .solution-image`).html(sImage);
-                    $(`${target} .solution-content`).html(desc);
-
-                    if($(`${target} a`).attr('href') != undefined) {
-                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-
-                    $(`${target2} .solution-image`).html(sImage).hide();
-                    $(`${target2} .solution-content`).html(desc);
-                    $(`${target2} .solution-content *`).css({
-                        "font-size": "18px",
-                        "font-weight": "700",
-                        "text-transform": "uppercase"
-
-                    })
-                    $('.solutions-list').css({
-                        "padding-left": "1.5rem"
-                    })
-
-                    if($(`${target2} a`).attr('href') != undefined) {
-                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-                })
-            </script>
-            <script type="text/javascript">
-                fetch('/graphql', {
-                 method: 'POST',
-                 credentials: 'same-origin',
-                 headers: {
-                     'Content-Type': 'application/json',
-                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
-                 },
-                 body: JSON.stringify({
-                     query: `
-                     query solutionmenu {
-                      site {
-                        route(path: "https://www.neteon.net/solutions-in-navigation/moxa-secure-remote-access-solution/") {
-                          node {
-                            ... on Category {
-                              entityId
-                              name
-                              path
-                              description
-                              defaultImage {
-                                ...ImageFields
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                    fragment ImageFields on Image {
-                      url320wide: url(width: 320)
-                      url1280wide: url(width: 1280)
-                    }
-                     `
-                 }),
-                })
-                .then(res => res.json())
-                .then(json => {
-                    var solution = json.data.site.route.node;
-                    var sHtml = '';
-                    var sId = solution.entityId;
-
-                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
-                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
-                    //var img = solution.defaultImage.url1280wide;
-                    var imgThumb = '';
-                    var imgFull = ''
-                    if(solution.defaultImage != null){
-                        imgThumb = solution.defaultImage.url320wide;
-                        imgFull = solution.defaultImage.url1280wide;
-                    }
-                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
-                    var desc = '';
-                    if(solution.description != null) {
-                        desc = solution.description
-                    }
-
-                    $(`${target} .solution-image`).html(sImage);
-                    $(`${target} .solution-content`).html(desc);
-
-                    if($(`${target} a`).attr('href') != undefined) {
-                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-
-                    $(`${target2} .solution-image`).html(sImage).hide();
-                    $(`${target2} .solution-content`).html(desc);
-                    $(`${target2} .solution-content *`).css({
-                        "font-size": "18px",
-                        "font-weight": "700",
-                        "text-transform": "uppercase"
-
-                    })
-                    $('.solutions-list').css({
-                        "padding-left": "1.5rem"
-                    })
-
-                    if($(`${target2} a`).attr('href') != undefined) {
-                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-                })
-            </script>
-            <script type="text/javascript">
-                fetch('/graphql', {
-                 method: 'POST',
-                 credentials: 'same-origin',
-                 headers: {
-                     'Content-Type': 'application/json',
-                     'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w'
-                 },
-                 body: JSON.stringify({
-                     query: `
-                     query solutionmenu {
-                      site {
-                        route(path: "https://www.neteon.net/solutions-in-navigation/long-reach-poe-networking/") {
-                          node {
-                            ... on Category {
-                              entityId
-                              name
-                              path
-                              description
-                              defaultImage {
-                                ...ImageFields
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                    fragment ImageFields on Image {
-                      url320wide: url(width: 320)
-                      url1280wide: url(width: 1280)
-                    }
-                     `
-                 }),
-                })
-                .then(res => res.json())
-                .then(json => {
-                    var solution = json.data.site.route.node;
-                    var sHtml = '';
-                    var sId = solution.entityId;
-
-                    var target = `#solution-menu-list [data-solutionid="solution_${sId}"]`;
-                    var target2 = `.main-menu-list-mobile [data-solutionid="solution_${sId}"]`;
-                    //var img = solution.defaultImage.url1280wide;
-                    var imgThumb = '';
-                    var imgFull = ''
-                    if(solution.defaultImage != null){
-                        imgThumb = solution.defaultImage.url320wide;
-                        imgFull = solution.defaultImage.url1280wide;
-                    }
-                    var sImage = `<img class="lazyload" src="${imgThumb}" data-src="${imgFull}">`;
-                    var desc = '';
-                    if(solution.description != null) {
-                        desc = solution.description
-                    }
-
-                    $(`${target} .solution-image`).html(sImage);
-                    $(`${target} .solution-content`).html(desc);
-
-                    if($(`${target} a`).attr('href') != undefined) {
-                        $(`${target} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-
-                    $(`${target2} .solution-image`).html(sImage).hide();
-                    $(`${target2} .solution-content`).html(desc);
-                    $(`${target2} .solution-content *`).css({
-                        "font-size": "18px",
-                        "font-weight": "700",
-                        "text-transform": "uppercase"
-
-                    })
-                    $('.solutions-list').css({
-                        "padding-left": "1.5rem"
-                    })
-
-                    if($(`${target2} a`).attr('href') != undefined) {
-                        $(`${target2} a`).attr('href', $(`${target} a`).attr('href').replace('%%GLOBAL_ShopPathSSL%%/','/'))
-                    }
-                })
-            </script>
+        <div class="product-cat-listing" style="display: none;">
+                    <div class="prod-item">
+                        <div class="main-cat">Network Infrastructure</div>
+                        <div class="main-item">
+                                <a href="https://www.neteon.net/products/network-infrastructure/ethernet-switches/" class="prod-link">Ethernet Switches</a>
+                                <a href="https://www.neteon.net/products/network-infrastructure/secure-routers/" class="prod-link">Secure Routers</a>
+                                <a href="https://www.neteon.net/products/network-infrastructure/industrial-wireless/" class="prod-link">Industrial Wireless</a>
+                                <a href="https://www.neteon.net/products/network-infrastructure/ethernet-media-converters/" class="prod-link">Ethernet Media Converters</a>
+                                <a href="https://www.neteon.net/products/network-infrastructure/network-management-software/" class="prod-link">Network Management Software</a>
+                                <a href="https://www.neteon.net/products/network-infrastructure/secure-remote-access/" class="prod-link">Secure Remote Access</a>
+                        </div>
+                    </div>
+                    <div class="prod-item">
+                        <div class="main-cat">Edge Connectivity</div>
+                        <div class="main-item">
+                                <a href="https://www.neteon.net/products/edge-connectivity/i-o-servers/" class="prod-link">I/O Servers</a>
+                                <a href="https://www.neteon.net/products/edge-connectivity/protocol-gateways/" class="prod-link">Protocol Gateways</a>
+                                <a href="https://www.neteon.net/products/edge-connectivity/serial-device-servers/" class="prod-link">Serial Device Servers</a>
+                                <a href="https://www.neteon.net/products/edge-connectivity/serial-converters/" class="prod-link">Serial Converters</a>
+                                <a href="https://www.neteon.net/products/edge-connectivity/usb-to-serial-usb-hubs/" class="prod-link">USB To Serial/USB Hubs</a>
+                                <a href="https://www.neteon.net/products/edge-connectivity/multiport-serial-board/" class="prod-link">Multiport Serial Board</a>
+                        </div>
+                    </div>
+                    <div class="prod-item">
+                        <div class="main-cat">Industrial Computer</div>
+                        <div class="main-item">
+                                <a href="https://www.neteon.net/products/industrial-computer/x86-computers/" class="prod-link">x86 Computers</a>
+                                <a href="https://www.neteon.net/products/industrial-computer/arm-risc-computers/" class="prod-link">ARM/RISC Computers</a>
+                                <a href="https://www.neteon.net/products/industrial-computer/panel-computers/" class="prod-link">Panel Computers</a>
+                                <a href="https://www.neteon.net/products/industrial-computer/iiot-gateways/" class="prod-link">IIoT Gateways</a>
+                        </div>
+                    </div>
+                    <div class="prod-item">
+                        <div class="main-cat">Network Security</div>
+                        <div class="main-item">
+                                <a href="https://www.neteon.net/products/network-security/industrial-firewall/" class="prod-link">Industrial Firewall</a>
+                                <a href="https://www.neteon.net/products/network-security/network-address-translation/" class="prod-link">Network Address Translation</a>
+                                <a href="https://www.neteon.net/products/network-security/intrusion-prevention-system/" class="prod-link">Intrusion Prevention System</a>
+                        </div>
+                    </div>
+                    <div class="prod-item">
+                        <div class="main-cat">Accessories</div>
+                        <div class="main-item">
+                                <a href="https://www.neteon.net/products/accessories/sfp-modules/" class="prod-link">SFP Modules</a>
+                                <a href="https://www.neteon.net/products/accessories/power-suppliers/" class="prod-link">Power Suppliers</a>
+                                <a href="https://www.neteon.net/products/accessories/poe-splitters-injectors/" class="prod-link">PoE Splitters/Injectors</a>
+                                <a href="https://www.neteon.net/products/accessories/wlan-antennas-cables/" class="prod-link">WLAN Antennas &amp; Cables</a>
+                                <a href="https://www.neteon.net/products/accessories/mounting-kits/" class="prod-link">Mounting Kits</a>
+                        </div>
+                    </div>
+        </div>
     <ul class="navPages-list navPages-list--user">
             <li class="navPages-item" style="display: none;">
                 <a class="navPages-action navPages-action--compare" href="/compare" data-compare-nav="" aria-label="Compare">
@@ -1484,7 +1042,7 @@
             <!-- B2B Customization Starts -->
         <!-- B2B Customization Ends -->
           <a href="javascript:void(0)" class="navUser-action">
-            <!--<img class="navUser-icon" id="toggle-account-dropdown" src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/b6c443b0-e90d-013c-0b78-62727f51fabf/img/header/account-icon.png" alt="Account">-->
+            <!--<img class="navUser-icon" id="toggle-account-dropdown" src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/6af82e80-ea4a-013c-ab75-22a2442e98ce/e/b6c443b0-e90d-013c-0b78-62727f51fabf/img/header/account-icon.png" alt="Account">-->
             <img class="navUser-icon" id="toggle-account-dropdown" src="https://assets-global.website-files.com/65bb5d26887b87305b615029/65f4159dc5182b053c85920d_profile.svg" alt="Account">
           </a>
             <div class="account-dropdown not_logged_in">
@@ -1500,7 +1058,7 @@
         <li class="navUser-item navUser-item--cart">
             <a class="navUser-action" data-cart-preview="" data-dropdown="cart-preview-dropdown" data-options="align:right" href="/cart.php" aria-label="Cart with 0 items">
                 <!-- <span class="navUser-item-cartLabel">Cart</span> -->
-                <!-- <img class="navUser-icon" src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/b6c443b0-e90d-013c-0b78-62727f51fabf/img/header/cart-icon.png" alt="cart">-->
+                <!-- <img class="navUser-icon" src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/6af82e80-ea4a-013c-ab75-22a2442e98ce/e/b6c443b0-e90d-013c-0b78-62727f51fabf/img/header/cart-icon.png" alt="cart">-->
                 <img class="navUser-icon" src="https://assets-global.website-files.com/65bb5d26887b87305b615029/65f4159e665c63b90d3814f6_shopping%20cart.svg" alt="cart">
                 <span class="countPill cart-quantity"></span>
             </a>
@@ -1520,340 +1078,8 @@
         <main class="body" id="main-content" role="main" data-currency-code="USD">
      
     <div class="container">
-        <div class="main full">
-    <div id="Top" class="back-to-top-container">
-        <a href="#Top" class="back-to-top-button w-inline-block"><img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/65bb5d26887b87305b615042_interface-chevron-down.svg" loading="eager" alt="" class="back-to-top-arrow"></a>
-      </div>
-      <div class="section homepage-bg">
-        <div data-poster-url="https://uploads-ssl.webflow.com/65bb5d26887b87305b615029/65f80c84b7a417c4e6c73ccd_neteon hero video-poster-00001.jpg" data-video-urls="https://uploads-ssl.webflow.com/65bb5d26887b87305b615029/65f80c84b7a417c4e6c73ccd_neteon hero video-transcode.mp4,https://uploads-ssl.webflow.com/65bb5d26887b87305b615029/65f80c84b7a417c4e6c73ccd_neteon hero video-transcode.webm" data-autoplay="true" data-loop="true" data-wf-ignore="true" class="background-video w-background-video w-background-video-atom"><video id="8e4d3944-1a2e-3775-bb89-98a69b3fdb6f-video" autoplay="" loop="" style="background-image:url(&quot;https://uploads-ssl.webflow.com/65bb5d26887b87305b615029/65f80c84b7a417c4e6c73ccd_neteon hero video-poster-00001.jpg&quot;)" muted="" playsinline="" data-wf-ignore="true" data-object-fit="cover">
-            <source src="https://uploads-ssl.webflow.com/65bb5d26887b87305b615029/65f80c84b7a417c4e6c73ccd_neteon hero video-transcode.mp4" data-wf-ignore="true">
-            <source src="https://uploads-ssl.webflow.com/65bb5d26887b87305b615029/65f80c84b7a417c4e6c73ccd_neteon hero video-transcode.webm" data-wf-ignore="true">
-          </video>
-          <div class="homepage-hero-gradient"></div>
-        </div>
-        <div id="w-node-_053fd93d-2bc7-0bdc-1ee5-59cc575e27e2-18b51fc5" class="div-block-30">
-          <div id="w-node-a5389dce-8c12-088a-5489-fc50903db5ed-18b51fc5" class="container---main">
-            <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba8f8-18b51fc5" class="container---m">
-              <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba8f9-18b51fc5" class="columns gap-1-5x">
-                <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba8fa-18b51fc5" class="columns gap-1x">
-                  <h1 class="heading-display text-white---heading">Exploring <br>Network Innovation for Reliable Energy Storage</h1>
-                  <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba8ff-18b51fc5" class="text-large text-white">Power Your New Battery Energy Storage System With Our Industrial Network and Protocol Communication Experts</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section">
-        <div class="container---main">
-          <div id="w-node-fe7656bd-b0c5-4281-6472-d190401f48af-18b51fc5" class="columns gap-1-5x">
-            <div id="w-node-fe7656bd-b0c5-4281-6472-d190401f48b0-18b51fc5" class="columns gap-1x align-center">
-              <h1 class="display-heading">Industry Focus Solutions</h1>
-              <h4>Our solutions are tailored to overcome the unique challenges in specific environments</h4>
-            </div>
-            <div class="neteon-solution-pages-wrapper">
-              <div class="w-dyn-list">
-                <div role="list" class="solution-pages-list full-page w-dyn-items">
-                </div>
-              </div>
-            </div>
-            <div class="cta-align-center">
-              <a href="https://solutions.neteon.net/" class="button w-button">Other Solutions</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <section class="section bg-light rounded">
-        <div class="container---main">
-          <div class="columns gap-1-5x align-center kt-col-container">
-            <h2>Knowledge Base</h2>
-            <div class="resources-wrapper">
-              <div fs-cmsfilter-element="list" class="collection-list-wrapper w-dyn-list">
-                <div role="list" class="bess-flyer-list w-dyn-items">
-                    <div role="listitem" class="collection-item w-dyn-item">
-                          <a href="https://solutions.neteon.net/literature-library/elevating-energy-and-empowering-bess-with-data-and-connectivity" class="download-link w-inline-block">
-                            <div class="library-download-card">
-                                <img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/661f3f4c338dba2bdccd52e6_Teaser%20Image.jpg" loading="lazy" alt="" class="download-image">
-                                <div class="download-card-botton bg-white">
-                                    <div class="columns gap-0-5x is-librarycard">
-                                        <p class="text-large">Elevating Energy and Empowering BESS with Data and Connectivity</p>
-                                        <p class="text-small">November 7, 2023</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div role="listitem" class="collection-item w-dyn-item">
-                          <a href="https://solutions.neteon.net/post/why-choose-industrial-networks-over-enterprise-networks" class="download-link w-inline-block">
-                            <div class="library-download-card">
-                                <img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/660d2e236c7d57a6a097e8a4_solution%20page%20hero.jpg" loading="lazy" alt="" class="download-image">
-                                <div class="download-card-botton bg-white">
-                                    <div class="columns gap-0-5x is-librarycard">
-                                        <p class="text-large">Why choose industrial networks over enterprise networks?</p>
-                                        <p class="text-small">April 12, 2024</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div role="listitem" class="collection-item w-dyn-item">
-                          <a href="https://solutions.neteon.net/post/a-new-era-of-power-deciphering-the-four-major-data-challenges-in-large-scale-battery-energy-storage-systems" class="download-link w-inline-block">
-                            <div class="library-download-card">
-                                <img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/661f3fb9c69ef27787d072b2_Teaser%20Image.jpg" loading="lazy" alt="" class="download-image">
-                                <div class="download-card-botton bg-white">
-                                    <div class="columns gap-0-5x is-librarycard">
-                                        <p class="text-large">A New Era of Power: Deciphering the Four Major Data Challenges in Large-Scale Battery Energy Storage Systems</p>
-                                        <p class="text-small">April 15, 2024</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-              </div>
-            </div>
-            <a href="https://solutions.neteon.net/literature-library" class="button w-button">Read More</a>
-          </div>
-        </div>
-      </section>
-      <div class="section reduced-bottom-padding">
-        <div class="container---main">
-          <div class="rows gap-2x align-center">
-            <div class="columns">
-              <h2>Experts You Can Trust</h2>
-              <div id="w-node-_7b4b985b-df8b-c1b6-ce46-a10c6ec08676-18b51fc5" class="text-large">Neteon proudly offers our exceptional services combining 20+ years of Industrial Networking experience, in-depth technical knowledge, and fast turnaround time on products!</div>
-            </div>
-            <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9b0-18b51fc5" class="rows gap-2x text-boxes">
-              <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9b1-18b51fc5" class="columns gap-0-75x align-left"><img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/65f93bb1485ced798c17340e_Powering%20the%20World%E2%80%99s%20First%20Certified%20Smart%20Ship.svg" alt="" class="product-image">
-                <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9b3-18b51fc5" class="columns gap-0-5x">
-                  <h5>Experience</h5>
-                  <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9b6-18b51fc5">Benefit from 20+ years of industrial networking expertise. We are committed to outstanding customer service, deep technical insight, and on-time delivery.</div>
-                </div>
-              </div>
-              <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9b8-18b51fc5" class="columns gap-0-75x align-left"><img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/65f93bb2e63a560a776d16ac_Ready%20for%20Manufacturing%E2%80%99s%20Digital%20Future.svg" alt="" class="product-image">
-                <div class="columns gap-0-5x">
-                  <h5>Innovation</h5>
-                  <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9bd-18b51fc5">Our engineers stay on top of the latest technology and industry trends, which ensure your projects and designs are future-proof.&nbsp;</div>
-                </div>
-              </div>
-              <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9bf-18b51fc5" class="columns gap-0-75x align-left"><img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/65f93bb0f88aa3d2d197c71b_Complete%20High-Bandwidth%20Solutions.svg" alt="" class="product-image">
-                <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9c1-18b51fc5" class="columns gap-0-5x">
-                  <h5>Customization</h5>
-                  <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9c4-18b51fc5">Every project and application is unique. We have the expertise and flexibility to tailor our solutions to fit your specific requirements.&nbsp;</div>
-                </div>
-              </div>
-              <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9c6-18b51fc5" class="columns gap-0-75x align-left"><img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/65f93bb09102da8859fd9d45_Creating%20and%20Adhering%20to%20ITS%20Best%20Practices.svg" alt="" class="product-image">
-                <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9c8-18b51fc5" class="columns gap-0-5x">
-                  <h5>Partnerships</h5>
-                  <div id="w-node-_3a2c4d37-68f8-9595-903f-50144b2ba9cb-18b51fc5">Our Global and Fortune 500 clientele speaks volumes about our reliable network solutions and sincere service.</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="section bg-light">
-        <div class="container---main">
-          <div class="columns gap-1-5x align-center">
-            <h2>Our Customers</h2>
-            <div class="rows our-customers-wrapper">
-              <div class="mrc-box bg-white"><img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/660cfc9a064c9389808e613b_BESS.svg" alt="" class="homepage-our-customers-image">
-                <div id="w-node-e503b866-61b0-c20b-c0c6-506d91d70ddf-18b51fc5" class="columns gap-0-75x align-left">
-                  <h4 class="heading-19">Critical Power</h4>
-                  <div class="columns gap-0-25x">
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">ASCO Power<br></p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Schneider Electric</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Emerson Electric</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">IEM</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Avtron Power Solutions<br></p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="mrc-box bg-white"><img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/660cfc9af332344c57826581_Renewable%20Energy.svg" alt="" class="homepage-our-customers-image">
-                <div id="w-node-_63e14c32-4ce6-231a-87b7-a267d1e8bf10-18b51fc5" class="columns gap-0-75x align-left">
-                  <h4>Renewables/ Energy Storage Systems</h4>
-                  <div class="columns gap-0-25x">
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Hitachi Energy</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">LG Energy Solution</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Tesla Energy</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Duke Energy Renewables</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">First Solar</p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="mrc-box bg-white"><img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/660cfc9a6a2bb4308a803f7d_Automation.svg" alt="" class="homepage-our-customers-image">
-                <div id="w-node-_95e3555b-7b4a-764f-feb5-ddab61023471-18b51fc5" class="columns gap-0-75x align-left">
-                  <h4>Automation</h4>
-                  <div class="columns gap-0-25x">
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Honeywell</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Siemens</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">ABB</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Rockwell Automation</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Toyota Tsusho America</p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="mrc-box bg-white"><img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/660cfc9a49820c7be3a53c78_Oil%20%26%20Gas.svg" alt="" class="homepage-our-customers-image">
-                <div id="w-node-b5e0ee95-7856-ec9f-a1fa-02c8db053da3-18b51fc5" class="columns gap-0-75x align-left">
-                  <h4>Oil &amp; Gas</h4>
-                  <div class="columns gap-0-25x">
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Aramco</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Pacific Gas and Electric</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Exxon Mobil</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">BP America</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Marathon Oil</p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div id="w-node-_56ab63af-64c0-656a-6b83-ccb7260bec17-18b51fc5" class="mrc-box bg-white"><img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/660cfc9a3a30c428e24bbf71_Transportation.svg" alt="" class="homepage-our-customers-image">
-                <div id="w-node-_56ab63af-64c0-656a-6b83-ccb7260bec19-18b51fc5" class="columns gap-0-75x align-left">
-                  <h4>Transportation</h4>
-                  <div class="columns gap-0-25x">
-                    <ul role="list" class="list">
-                      <li>
-                        <p class="text-small">NJ Turnpike</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">New Jersey Transit</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">MTA Metro</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Sacramento Regional Transit</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">San Diego Metro Transit System</p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div id="w-node-e36e4be4-c97f-a0fc-8fa2-3d9f6f3e30d5-18b51fc5" class="mrc-box bg-white"><img src="https://assets-global.website-files.com/65bb5d26887b87305b615029/660cfc9aa40fd47a935e154d_Defense.svg" alt="" class="homepage-our-customers-image">
-                <div id="w-node-e36e4be4-c97f-a0fc-8fa2-3d9f6f3e30d7-18b51fc5" class="columns gap-0-75x align-left">
-                  <h4>Government/ Defense</h4>
-                  <div class="columns gap-0-25x">
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">FAA</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">NASA</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Brookhaven National Laboratory</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Argonne National Laboratory</p>
-                      </li>
-                    </ul>
-                    <ul role="list">
-                      <li>
-                        <p class="text-small">Lockheed Martin</p>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <section id="Contact-Us" class="section">
+        <div class="main full opac-0">
+    <section id="Contact-Us" class="section">
         <div class="container---main">
           <div class="rotate-in-wrapper">
             <div class="rotate-in-contents">
@@ -1863,10 +1089,7 @@
                     <div data-w-id="b808c436-fc99-cb3e-11f2-b491bfbc984b" data-animation-type="lottie" data-src="https://uploads-ssl.webflow.com/65b743b99ed48260ecc89f05/65b9f504dc9ca65f9b10f3ab_Animation%20-%201706684815688.json" data-loop="1" data-direction="1" data-autoplay="1" data-is-ix2-target="0" data-renderer="svg" data-default-duration="2.033333333333333" data-duration="0"></div>
                   </div>
                   <div class="columns gap-2x">
-                    <div class="columns">
-                      <h4 class="heading-display text-white---heading">Connect with industry experts from Neteon</h4>
-                      <h4 class="is-white">Stay up-to-date in industrial networking technology with insights sent directly to your inbox.</h4>
-                    </div>
+                    <div class="columns contact-content"></div>
                     <div class="w-form">
                       <form id="wf-form-Work-Email" name="wf-form-Work-Email" method="get" data-name="Work Email" class="columns gap-1x form-block" data-wf-page-id="65f42c1b40740e7b18b51fc5" data-wf-element-id="b808c436-fc99-cb3e-11f2-b491bfbc9853">
                         <div id="w-node-b808c436-fc99-cb3e-11f2-b491bfbc9854-bfbc9844" class="columns">
@@ -1874,9 +1097,9 @@
                             <script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/embed/v2.js"></script>
                             <script>
                               hbspt.forms.create({
-                                region: "na1",
-                                portalId: "8604504",
-                                formId: "9ef58072-ab5b-4aac-8367-870a4304f268"
+                                region:"na1",
+                                portalId:"8604504",
+                                formId:"9ef58072-ab5b-4aac-8367-870a4304f268"
                               });
                             </script>
                           </div>
@@ -1902,71 +1125,30 @@
 <link href="https://assets-global.website-files.com/65bb5d26887b87305b615029/css/neteon.webflow.ef05f647a.css" rel="stylesheet" type="text/css">
 <script>
   $(document).ready(function() {
-    $.ajax({
-        url: 'https://neteon-webflow-solutions.neteon.workers.dev/',
-        type: 'GET',
-        success: function(response) {
-            response.forEach(function(item) {
-                if (item.collectionId === '660ba4b75ee5f2e4b475aaeb') {
-                  var indexesToLoop = [0, 1, 7, 5];
-                  indexesToLoop.forEach(function(index) {
-                    var data = item.data.items[index];
-                    var template = `
-                        <div role="listitem" class="w-dyn-item">
-                            <a href="${data.fieldData.url}" class="solution-box-link w-inline-block">
-                                <div class="solution-box-wrapper">
-                                    <img src="${data.fieldData.poster.url}" alt="" class="solution-box-image">
-                                    <div class="solution-content-wrapper bg-light">
-                                        <div class="columns gap-0-75x align-left">
-                                            <div class="text-large">${data.fieldData.name}</div>
-                                            <p class="text-small">${data.fieldData.overview}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    `;
-
-                    $('.neteon-solution-pages-wrapper .solution-pages-list[role="list"]').append(template);
-                  });
-                }
-                // if (item.collectionId === '65f42c1b40740e7b18b52007') {
-                //   item.data.items.forEach(function(data) {
-                //     var formattedDate = new Date(data.createdOn).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-                //     var template = `
-                //           <div role="listitem" class="collection-item w-dyn-item">
-                //               <a href="https://solutions.neteon.net/literature-library/${data.fieldData.slug}" class="download-link w-inline-block">
-                //                   <div class="library-download-card">
-                //                     <img src="${data.fieldData['cover-photo'].url}" loading="lazy" alt="${data.fieldData['cover-photo'].alt}" class="download-image">
-                //                       <div class="download-card-botton bg-white">
-                //                           <div class="columns gap-0-5x is-librarycard">
-                //                               <p class="text-large">${data.fieldData.name}</p>
-                //                               <p class="text-small">${formattedDate}</p>
-                //                           </div>
-                //                       </div>
-                //                   </div>
-                //               </a>
-                //           </div>
-                //       `;
-                //       $('.resources-wrapper .bess-flyer-list[role="list"]').append(template);
-                //   });
-                // }
-            });
-        },
-        error: function(err) {
-            console.error(err);
-        }
-    });
-    
     // Homepage justify-content
-    $.get('https://raw.githubusercontent.com/tentendev/webflow-neteon-content/main/home-body.html', function(html) {
-        var parsedHTML = $.parseHTML(html);
-    
-        console.log(parsedHTML)
+    $.get('https://raw.githubusercontent.com/tentendev/webflow-neteon-content/main/webflow.html', function(html) {
+        var contentIndexes = [37,38,39,40,41];
+        var outerHtmlContainer = $('<div>');
+
+        $(html).each(function(index, element) {
+            var outerHtmlContent = element.outerHTML;
+            if (contentIndexes.includes(index)) {
+                outerHtmlContainer.append(outerHtmlContent);
+            }
+        });
+        $('main.body .main.full').prepend(outerHtmlContainer.html());
+        setTimeout(function() {
+            $('.main.full').removeClass('opac-0');
+            $('#Contact-Us .boxed-cta .contact-content').append('<h4 class="heading-display text-white---heading">Connect with industry experts from Neteon</h4><h4 class="is-white">Stay up-to-date in industrial networking technology with insights sent directly to your inbox.</h4>');
+
+        }, 500);
     });
   });
 </script>
 <style>
+  .opac-0 {
+      opacity: 0;
+  }
   .button,
   .w-button {
     font-size: 16px;
@@ -2109,8 +1291,8 @@
 
 
 
-        <script>window.__webpack_public_path__ = "https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/b6c443b0-e90d-013c-0b78-62727f51fabf/dist/";</script>
-        <script src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/2277f520-e2dc-013c-57a1-127e3fcc2c2d/e/b6c443b0-e90d-013c-0b78-62727f51fabf/dist/theme-bundle.main.js"></script>
+        <script>window.__webpack_public_path__ = "https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/6af82e80-ea4a-013c-ab75-22a2442e98ce/e/b6c443b0-e90d-013c-0b78-62727f51fabf/dist/";</script>
+        <script src="https://cdn11.bigcommerce.com/s-exhcjslbho/stencil/6af82e80-ea4a-013c-ab75-22a2442e98ce/e/b6c443b0-e90d-013c-0b78-62727f51fabf/dist/theme-bundle.main.js"></script>
         <script>
             window.stencilBootstrap("default", "{\"zoomSize\":\"1280x1280\",\"productSize\":\"500x659\",\"showAdminBar\":true,\"genericError\":\"Oops! Something went wrong.\",\"maintenanceModeSettings\":[],\"adminBarLanguage\":\"{\\\"locale\\\":\\\"en\\\",\\\"locales\\\":{\\\"admin.maintenance_header\\\":\\\"en\\\",\\\"admin.maintenance_tooltip\\\":\\\"en\\\",\\\"admin.maintenance_showstore_link\\\":\\\"en\\\",\\\"admin.prelaunch_header\\\":\\\"en\\\",\\\"admin.page_builder_link\\\":\\\"en\\\"},\\\"translations\\\":{\\\"admin.maintenance_header\\\":\\\"Your store is down for maintenance.\\\",\\\"admin.maintenance_tooltip\\\":\\\"Only administrators can view the store at the moment. Visit your control panel settings page to disable maintenance mode.\\\",\\\"admin.maintenance_showstore_link\\\":\\\"Click here to see what your visitors will see.\\\",\\\"admin.prelaunch_header\\\":\\\"Your storefront is private. Share your site with preview code:\\\",\\\"admin.page_builder_link\\\":\\\"Design this page in Page Builder\\\"}}\",\"urls\":{\"home\":\"https://www.neteon.net/\",\"account\":{\"index\":\"/account.php\",\"orders\":{\"all\":\"/account.php?action=order_status\",\"completed\":\"/account.php?action=view_orders\",\"save_new_return\":\"/account.php?action=save_new_return\"},\"update_action\":\"/account.php?action=update_account\",\"returns\":\"/account.php?action=view_returns\",\"addresses\":\"/account.php?action=address_book\",\"inbox\":\"/account.php?action=inbox\",\"send_message\":\"/account.php?action=send_message\",\"add_address\":\"/account.php?action=add_shipping_address\",\"wishlists\":{\"all\":\"/wishlist.php\",\"add\":\"/wishlist.php?action=addwishlist\",\"edit\":\"/wishlist.php?action=editwishlist\",\"delete\":\"/wishlist.php?action=deletewishlist\"},\"details\":\"/account.php?action=account_details\",\"recent_items\":\"/account.php?action=recent_items\",\"payment_methods\":{\"all\":\"/account.php?action=payment_methods\"}},\"brands\":\"https://www.neteon.net/brands/\",\"gift_certificate\":{\"purchase\":\"/giftcertificates.php\",\"redeem\":\"/giftcertificates.php?action=redeem\",\"balance\":\"/giftcertificates.php?action=balance\"},\"auth\":{\"login\":\"/login.php\",\"check_login\":\"/login.php?action=check_login\",\"create_account\":\"/login.php?action=create_account\",\"save_new_account\":\"/login.php?action=save_new_account\",\"forgot_password\":\"/login.php?action=reset_password\",\"send_password_email\":\"/login.php?action=send_password_email\",\"save_new_password\":\"/login.php?action=save_new_password\",\"logout\":\"/login.php?action=logout\"},\"product\":{\"post_review\":\"/postreview.php\"},\"cart\":\"/cart.php\",\"checkout\":{\"single_address\":\"/checkout\",\"multiple_address\":\"/checkout.php?action=multiple\"},\"rss\":{\"products\":[]},\"contact_us_submit\":\"/pages.php?action=sendContactForm\",\"search\":\"/search.php\",\"compare\":\"/compare\",\"sitemap\":\"/sitemap.php\",\"subscribe\":{\"action\":\"/subscribe.php\"}},\"secureBaseUrl\":\"https://www.neteon.net\",\"cartId\":null,\"channelId\":1,\"template\":\"pages/home\",\"validationDictionaryJSON\":\"{\\\"locale\\\":\\\"en\\\",\\\"locales\\\":{\\\"validation_messages.valid_email\\\":\\\"en\\\",\\\"validation_messages.password\\\":\\\"en\\\",\\\"validation_messages.password_match\\\":\\\"en\\\",\\\"validation_messages.invalid_password\\\":\\\"en\\\",\\\"validation_messages.field_not_blank\\\":\\\"en\\\",\\\"validation_messages.certificate_amount\\\":\\\"en\\\",\\\"validation_messages.certificate_amount_range\\\":\\\"en\\\",\\\"validation_messages.price_min_evaluation\\\":\\\"en\\\",\\\"validation_messages.price_max_evaluation\\\":\\\"en\\\",\\\"validation_messages.price_min_not_entered\\\":\\\"en\\\",\\\"validation_messages.price_max_not_entered\\\":\\\"en\\\",\\\"validation_messages.price_invalid_value\\\":\\\"en\\\"},\\\"translations\\\":{\\\"validation_messages.valid_email\\\":\\\"You must enter a valid email.\\\",\\\"validation_messages.password\\\":\\\"You must enter a password.\\\",\\\"validation_messages.password_match\\\":\\\"Your passwords do not match.\\\",\\\"validation_messages.invalid_password\\\":\\\"Passwords must be at least 7 characters and contain both alphabetic and numeric characters.\\\",\\\"validation_messages.field_not_blank\\\":\\\" field cannot be blank.\\\",\\\"validation_messages.certificate_amount\\\":\\\"You must enter a gift certificate amount.\\\",\\\"validation_messages.certificate_amount_range\\\":\\\"You must enter a certificate amount between [MIN] and [MAX]\\\",\\\"validation_messages.price_min_evaluation\\\":\\\"Min. price must be less than max. price.\\\",\\\"validation_messages.price_max_evaluation\\\":\\\"Min. price must be less than max. price.\\\",\\\"validation_messages.price_min_not_entered\\\":\\\"Min. price is required.\\\",\\\"validation_messages.price_max_not_entered\\\":\\\"Max. price is required.\\\",\\\"validation_messages.price_invalid_value\\\":\\\"Input must be greater than 0.\\\"}}\",\"validationFallbackDictionaryJSON\":\"{\\\"locale\\\":\\\"en\\\",\\\"locales\\\":{\\\"validation_fallback_messages.valid_email\\\":\\\"en\\\",\\\"validation_fallback_messages.password\\\":\\\"en\\\",\\\"validation_fallback_messages.password_match\\\":\\\"en\\\",\\\"validation_fallback_messages.invalid_password\\\":\\\"en\\\",\\\"validation_fallback_messages.field_not_blank\\\":\\\"en\\\",\\\"validation_fallback_messages.certificate_amount\\\":\\\"en\\\",\\\"validation_fallback_messages.certificate_amount_range\\\":\\\"en\\\",\\\"validation_fallback_messages.price_min_evaluation\\\":\\\"en\\\",\\\"validation_fallback_messages.price_max_evaluation\\\":\\\"en\\\",\\\"validation_fallback_messages.price_min_not_entered\\\":\\\"en\\\",\\\"validation_fallback_messages.price_max_not_entered\\\":\\\"en\\\",\\\"validation_fallback_messages.price_invalid_value\\\":\\\"en\\\"},\\\"translations\\\":{\\\"validation_fallback_messages.valid_email\\\":\\\"You must enter a valid email.\\\",\\\"validation_fallback_messages.password\\\":\\\"You must enter a password.\\\",\\\"validation_fallback_messages.password_match\\\":\\\"Your passwords do not match.\\\",\\\"validation_fallback_messages.invalid_password\\\":\\\"Passwords must be at least 7 characters and contain both alphabetic and numeric characters.\\\",\\\"validation_fallback_messages.field_not_blank\\\":\\\" field cannot be blank.\\\",\\\"validation_fallback_messages.certificate_amount\\\":\\\"You must enter a gift certificate amount.\\\",\\\"validation_fallback_messages.certificate_amount_range\\\":\\\"You must enter a certificate amount between [MIN] and [MAX]\\\",\\\"validation_fallback_messages.price_min_evaluation\\\":\\\"Min. price must be less than max. price.\\\",\\\"validation_fallback_messages.price_max_evaluation\\\":\\\"Min. price must be less than max. price.\\\",\\\"validation_fallback_messages.price_min_not_entered\\\":\\\"Min. price is required.\\\",\\\"validation_fallback_messages.price_max_not_entered\\\":\\\"Max. price is required.\\\",\\\"validation_fallback_messages.price_invalid_value\\\":\\\"Input must be greater than 0.\\\"}}\",\"validationDefaultDictionaryJSON\":\"{\\\"locale\\\":\\\"en\\\",\\\"locales\\\":{},\\\"translations\\\":{}}\",\"carouselArrowAndDotAriaLabel\":\"Go to slide [SLIDE_NUMBER] of [SLIDES_QUANTITY]\",\"carouselActiveDotAriaLabel\":\"active\",\"carouselContentAnnounceMessage\":\"You are currently on slide [SLIDE_NUMBER] of [SLIDES_QUANTITY]\"}").load();
 
@@ -2170,7 +1352,7 @@
   SOUNDEST.productID = "";
   SOUNDEST.categoryTitle = "";
   SOUNDEST.categoryID = "";
-  SOUNDEST.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ2NDQ3OTUsImlhdCI6MTcxNDQ3MTk5NSwiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.YKKwMJJurRUzRsVLKBbkHFb5thFYCMxPmEHbJ5Jsif7kOis7pxQFK1lDQAAP8zTiwx2Di2Tc71xINIJnMg_n-w";
+  SOUNDEST.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJjaWQiOjEsImNvcnMiOlsiaHR0cHM6Ly93d3cubmV0ZW9uLm5ldCJdLCJlYXQiOjE3MTQ3MzExOTcsImlhdCI6MTcxNDU1ODM5NywiaXNzIjoiQkMiLCJzaWQiOjEwMDE2Mjk0NjEsInN1YiI6IkJDIiwic3ViX3R5cGUiOjAsInRva2VuX3R5cGUiOjF9.-yPdQCZjUZkxsbMSUQNzgcMronIi9WF_G37OkwGmUgR5jE92kTo7nV2F28Tmy_YwLjIs1HhkU9UXEQzvgPW_Sg";
   !(function (baseURL, version) {
     for (
       var t = document.getElementsByTagName("script"), o = !1, s = 0;
